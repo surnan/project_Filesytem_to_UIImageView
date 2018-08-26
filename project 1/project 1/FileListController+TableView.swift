@@ -16,10 +16,16 @@ extension FileListController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = UITableViewCell()
         cell.textLabel?.text = pictures[indexPath.row]
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let tempController = ShowImageController()
+        navigationController?.pushViewController(tempController, animated: true)
+    }
+    
+    
     
 }
