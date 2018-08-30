@@ -45,6 +45,7 @@ class ShowInformationController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.lightBlue

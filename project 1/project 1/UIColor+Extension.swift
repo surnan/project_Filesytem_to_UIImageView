@@ -18,5 +18,6 @@ extension UIColor{
     static let lightYellow = UIColor(displayP3Red: 250/255, green: 249/255, blue: 210/255, alpha: 1)
     static let oliveGreen = UIColor(displayP3Red: 141/255, green: 218/255, blue: 141/255, alpha: 1)
     static let lightOrange = UIColor(displayP3Red: 255/255, green: 204/255, blue: 153/255, alpha: 1)
+    static let lightBrown = UIColor(displayP3Red: 145/255, green: 130/255, blue: 130/255, alpha: 1)
 }
 

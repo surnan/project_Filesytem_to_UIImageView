@@ -10,10 +10,10 @@
 import UIKit
 
 class ShowImageController:UIViewController {
-
-    lazy var fileImage: UIImageView = {
+    
+    lazy var fileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "info_icon")
+//        imageView.image = #imageLiteral(resourceName: "info_icon")
         imageView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapFileImage))
         imageView.addGestureRecognizer(tapGesture)
@@ -28,12 +28,22 @@ class ShowImageController:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        [fileImage].forEach{view.addSubview($0)}
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        
+        [fileImageView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
-            fileImage.topAnchor.constraint(equalTo: view.topAnchor),
-            fileImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            fileImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            fileImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            fileImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            fileImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            fileImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            fileImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             ])
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    
 }

@@ -13,21 +13,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
-        
         window = UIWindow()
         window?.makeKeyAndVisible()
-        
-        
         let initialNavController = UINavigationController(rootViewController: FileListController())
         initialNavController.navigationBar.barTintColor = UIColor.lightRed
-        
         window?.rootViewController = initialNavController
-        
-        
         return true
+        
+        
+//        window = UIWindow()
+//        window?.makeKeyAndVisible()
+//        window?.rootViewController = tempDocController()
+//        return true
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
