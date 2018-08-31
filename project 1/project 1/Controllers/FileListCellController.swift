@@ -9,9 +9,9 @@
 import UIKit
 
 
-class FileListControllerCell: UITableViewCell {
+class FileListCellController: UITableViewCell {
     
-    var currentFileDirObject: FileDirObject!  {
+    var currentFileDirObject: FileDirObjectStruct!  {
         didSet {
             nameLabel.text = currentFileDirObject.name
             isFolderLabel.text = (currentFileDirObject.isFolder ? "---->" : "")

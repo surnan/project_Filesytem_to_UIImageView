@@ -11,7 +11,7 @@ import UIKit
 
 class FileListController: UITableViewController {
     
-    var fileDirObjects = [FileDirObject]()  //Array for TableView IndexPath
+    var fileDirObjects = [FileDirObjectStruct]()  //Array for TableView IndexPath
     let databaseID = "databaseID"
     var navTitleStr : String = "File System"
     var navLeftBarButtonStr: String = ""
@@ -36,7 +36,8 @@ class FileListController: UITableViewController {
             let onlyFileNamesStr = onlyFileNames.map { $0.lastPathComponent }
             print(subdirNamesStr); print(onlyFileNamesStr)
             directoryContents.forEach{
-                self.fileDirObjects.append(FileDirObject(name: $0.lastPathComponent, isFolder: $0.hasDirectoryPath))
+
+                self.fileDirObjects.append(FileDirObjectStruct(name: $0.lastPathComponent, isFolder: $0.hasDirectoryPath, url: $0.absoluteURL))
             }
         } catch let error as NSError {
             print(error)
@@ -87,9 +88,11 @@ class FileListController: UITableViewController {
         printCurrentPath()
         setupNavigationController()
         view.backgroundColor = UIColor.lightBlue
-        tableView.register(FileListControllerCell.self, forCellReuseIdentifier: databaseID)
+        tableView.register(FileListCellController.self, forCellReuseIdentifier: databaseID)
         setupTableView()
 //        showDirectories()
+
+
     }
     
     

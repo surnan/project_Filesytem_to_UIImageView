@@ -15,7 +15,7 @@ extension FileListController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: databaseID, for: indexPath) as! FileListControllerCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: databaseID, for: indexPath) as! FileListCellController
         let tempFileDirObject = fileDirObjects[indexPath.row]
         cell.currentFileDirObject = tempFileDirObject
         cell.backgroundColor = (tempFileDirObject.isFolder ? UIColor.lightOrange : UIColor.lightPurple)
@@ -32,20 +32,33 @@ extension FileListController {
             navigationController?.pushViewController(newController, animated: true)
         } else {
             let tempController = ShowImageController()
+            tempController.currentImage = FileURLtoUIImageView(currentObject: fileDirObjects[indexPath.row])
             navigationController?.pushViewController(tempController, animated: true)
         }
     }
     
     
-    
-    fileprivate func URLtoUIImageView(){
-        
+    fileprivate func FileURLtoUIImageView(currentObject: FileDirObjectStruct)-> UIImage {
+        if let image = UIImage(contentsOfFile: currentObject.fileURL.path) {
+            return image
+        } else {
+            return UIImage()
+        }
     }
-    
-    
-    
-    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

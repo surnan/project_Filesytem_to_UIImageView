@@ -9,16 +9,18 @@
 import Foundation
 
 
-struct FileDirObject: Comparable {
+struct FileDirObjectStruct: Comparable {
     var name: String
-    var isFolder: Bool
+    let isFolder: Bool
+    var fileURL : URL
     
-    init(name: String, isFolder: Bool){
+    init(name: String, isFolder: Bool, url: URL){
         self.name = name
         self.isFolder = isFolder
+        self.fileURL = url
     }
     
-    public static func < (lhs: FileDirObject, rhs: FileDirObject) -> Bool {
+    public static func < (lhs: FileDirObjectStruct, rhs: FileDirObjectStruct) -> Bool {
         
         if lhs.isFolder == rhs.isFolder
         {

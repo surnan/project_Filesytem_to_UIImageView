@@ -11,9 +11,14 @@ import UIKit
 
 class ShowImageController:UIViewController {
     
+    var currentImage: UIImage?  {
+        didSet {
+            fileImageView.image = currentImage!
+        }
+    }
+    
     lazy var fileImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = #imageLiteral(resourceName: "info_icon")
         imageView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapFileImage))
         imageView.addGestureRecognizer(tapGesture)
@@ -29,7 +34,9 @@ class ShowImageController:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: false)
+
         
+        fileImageView.image = currentImage!
         
         [fileImageView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
@@ -44,6 +51,4 @@ class ShowImageController:UIViewController {
         super.viewDidAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
-    
-    
 }
