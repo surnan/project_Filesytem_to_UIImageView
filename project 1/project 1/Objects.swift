@@ -21,7 +21,6 @@ struct FileDirObjectStruct: Comparable {
     }
     
     public static func < (lhs: FileDirObjectStruct, rhs: FileDirObjectStruct) -> Bool {
-        
         if lhs.isFolder == rhs.isFolder
         {
             return lhs.name < rhs.name

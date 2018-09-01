@@ -36,9 +36,9 @@ class FileListController: UITableViewController {
             let onlyFileNamesStr = onlyFileNames.map { $0.lastPathComponent }
             print(subdirNamesStr); print(onlyFileNamesStr)
             directoryContents.forEach{
-
                 self.fileDirObjects.append(FileDirObjectStruct(name: $0.lastPathComponent, isFolder: $0.hasDirectoryPath, url: $0.absoluteURL))
             }
+            self.fileDirObjects.sort()
         } catch let error as NSError {
             print(error)
         }
@@ -91,11 +91,7 @@ class FileListController: UITableViewController {
         tableView.register(FileListCellController.self, forCellReuseIdentifier: databaseID)
         setupTableView()
 //        showDirectories()
-
-
     }
-    
-    
     
     
     //MARK:- EXTRAS

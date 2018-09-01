@@ -46,7 +46,20 @@ extension FileListController {
         var nameAlertText: UITextField? //'input' is lost when 'addTextField' closure ends
         ///
         func handleEditRowAlert(actionTarget: UIAlertAction){
-            print("nameAlertText --> \(nameAlertText?.text ?? "")")            
+            print("nameAlertText --> \(nameAlertText?.text ?? "")")
+            let components = fileDirObjects[indexPath.row].fileURL.path.split(separator: "/")
+            let directory = components.dropLast(1).map(String.init).joined(separator: "/")
+            let newPath = "/" + directory + "/" + (nameAlertText?.text)!
+            do {
+                try FileManager.default.moveItem(atPath: fileDirObjects[indexPath.row].fileURL.path, toPath: newPath)
+                guard let newName = (nameAlertText?.text), let newUNC = URL(string: newPath) else { return }
+                fileDirObjects[indexPath.row].name = newName
+                fileDirObjects[indexPath.row].fileURL = newUNC
+                fileDirObjects.sort()
+                tableView.reloadData()
+            } catch let moveErr {
+                print("Error trying to rename/move file: \(moveErr)")
+            }
         }
         let editRowAlertController = UIAlertController(title: "EDIT", message: "Please enter new name for: \n\(fileDirObjects[indexPath.row].name)", preferredStyle: .alert)
         editRowAlertController.addTextField { (input) in
