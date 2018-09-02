@@ -23,7 +23,7 @@ struct FileDirObjectStruct: Comparable {
     public static func < (lhs: FileDirObjectStruct, rhs: FileDirObjectStruct) -> Bool {
         if lhs.isFolder == rhs.isFolder
         {
-            return lhs.name < rhs.name
+            return lhs.name.capitalized < rhs.name.capitalized
         } else {
             return lhs.isFolder
         }
