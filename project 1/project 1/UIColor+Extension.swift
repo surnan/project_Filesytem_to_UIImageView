@@ -21,3 +21,18 @@ extension UIColor{
     static let lightBrown = UIColor(displayP3Red: 145/255, green: 130/255, blue: 130/255, alpha: 1)
 }
 
+
+extension UIImage {
+    var jpeg: Data? {
+        return UIImageJPEGRepresentation(self, 1)   // QUALITY min = 0 / max = 1
+    }
+    var png: Data? {
+        return UIImagePNGRepresentation(self)
+    }
+}
+
+extension Data {
+    var uiImage: UIImage? {
+        return UIImage(data: self)
+    }
+}

@@ -49,7 +49,7 @@ class FileListController: UITableViewController {
         navigationItem.title = navTitleStr
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: navLeftBarButtonStr, style: .plain, target: self, action: #selector(handleLeft))
         let myInfoButton = getCustomizedBarButton(name: "info_icon", action: #selector(handleMatch))
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Folder", style: .done, target: self, action: #selector(handleFolder)),
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(handleCreate)),
                                               myInfoButton]
         navigationItem.leftBarButtonItem?.tintColor = UIColor.black
         navigationItem.rightBarButtonItem?.tintColor = UIColor.black
@@ -75,9 +75,11 @@ class FileListController: UITableViewController {
         present(ShowInformationController(), animated: true, completion: nil)
     }
     
-    @objc fileprivate func handleFolder(){
+    @objc fileprivate func handleCreate(){
         print("Folder button pressed")
-        present(ShowInformationController(), animated: true, completion: nil)
+        let newCreationController = CreationController()
+        newCreationController.currentUNC = getFolderToSearch()
+        navigationController?.pushViewController(newCreationController, animated: true)
     }
     
     

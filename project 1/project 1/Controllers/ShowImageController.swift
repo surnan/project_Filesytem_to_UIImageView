@@ -34,10 +34,8 @@ class ShowImageController:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: false)
-
         
         fileImageView.image = currentImage!
-        
         [fileImageView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
             fileImageView.topAnchor.constraint(equalTo: view.topAnchor),

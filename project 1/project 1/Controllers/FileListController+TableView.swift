@@ -31,7 +31,13 @@ extension FileListController {
         if currentFileDir.isFolder {
             let newController = FileListController()
             newController.navTitleStr = currentFileDir.name
-            newController.navLeftBarButtonStr = currentFileDir.name
+            
+//            newController.navLeftBarButtonStr = currentFileDir.name
+              newController.navLeftBarButtonStr = "Back"
+            
+            
+            print("currentFileDir = \(currentFileDir)")
+            
             newController.ender = currentFileDir.name
             navigationController?.pushViewController(newController, animated: true)
         } else {
@@ -45,6 +51,26 @@ extension FileListController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         var nameAlertText: UITextField? //'input' is lost when 'addTextField' closure ends
         ///
+        func handleDeleteRowAlert(actionTarget: UIAlertAction){
+            print("deleting --> \(nameAlertText?.text ?? "")")
+            
+            print("Current path = \(fileDirObjects[indexPath.row].fileURL)")
+            //remove from array also
+            //remove file
+            do {
+                try FileManager.default.removeItem(at: fileDirObjects[indexPath.row].fileURL)
+                fileDirObjects.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .middle)
+                print("Succesful deletion")
+            } catch let deleteFileErr {
+                print("Error deleting file from fileSystem \(deleteFileErr)")
+            }
+        }
+        
+        
+        
+        
+        
         func handleEditRowAlert(actionTarget: UIAlertAction){
             print("nameAlertText --> \(nameAlertText?.text ?? "")")
             if !fileDirObjects[indexPath.row].isFolder {
@@ -92,9 +118,7 @@ extension FileListController {
         editRowAlertController.addAction(action1)
         editRowAlertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         ///
-        func handleDeleteRowAlert(actionTarget: UIAlertAction){
-            print("deleting --> \(nameAlertText?.text ?? "")")
-        }
+
         let deleteRowAlertController = UIAlertController(title: "DELETE", message: "Please confirm deletion of: \n\(fileDirObjects[indexPath.row].name)", preferredStyle: .alert)
         let action2 = UIAlertAction(title: "Save", style: .default, handler: handleDeleteRowAlert)
         //  action2.setValue(#imageLiteral(resourceName: "info_icon"), forKey: "image")  <-- icon needs to be resized

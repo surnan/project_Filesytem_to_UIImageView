@@ -19,14 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let initialNavController = UINavigationController(rootViewController: FileListController())
         initialNavController.navigationBar.barTintColor = UIColor.lightRed
         window?.rootViewController = initialNavController
-        return true
-        
-        
-//        window = UIWindow()
-//        window?.makeKeyAndVisible()
-//        window?.rootViewController = tempDocController()
-//        return true
-        
+        return true        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
