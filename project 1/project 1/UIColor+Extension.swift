@@ -36,3 +36,4 @@ extension Data {
         return UIImage(data: self)
     }
 }
+

@@ -9,13 +9,27 @@
 import UIKit
 
 
-class FileListController: UITableViewController {
+protocol FileListControllerDelegate {
+    func updateTableRemoveObject(indexPath: IndexPath)
+    func updateTableAddObject()
+}
+
+
+class FileListController: UITableViewController, FileListControllerDelegate {
+    func updateTableRemoveObject(indexPath: IndexPath) {
+        tableView.reloadData()
+    }
+    
+    func updateTableAddObject() {
+        tableView.reloadData()
+    }
+    
     
     var fileDirObjects = [FileDirObjectStruct]()  //Array for TableView IndexPath
-    let databaseID = "databaseID"
-    var navTitleStr : String = "File System"
-    var navLeftBarButtonStr: String = ""
-    var ender = ""
+    private let databaseID = "databaseID"
+    fileprivate var navTitleStr : String = "File System"
+    fileprivate var navLeftBarButtonStr: String = ""
+    private var ender = ""
     
     fileprivate func getFolderToSearch() -> URL {
         let fm = FileManager.default
