@@ -10,19 +10,22 @@ import UIKit
 
 protocol FileListControllerDelegate {
     func deleteFileDirObject(indexPath: IndexPath)
-    func insertFileDirObject(indexPath: IndexPath, name: String, fileURL: URL)
+    func editFileDirObject(indexPath: IndexPath, name: String, fileURL: URL)
+    func addFileDirObject(name: String, isFolder: Bool, fileURL: URL)
 }
 
 class FileListController: UITableViewController, FileListControllerDelegate {
+
     
     var fileDirObjects = [FileDirObjectStruct]()  //Array for TableView IndexPath
     private var navTitleStr : String = "File System"
     private var navLeftBarButtonStr: String = ""
     private var ender = ""
+    private let FMd = FileManager.default
+    
     
     private func getFolderToSearch() -> URL {
-        let fm = FileManager.default
-        var dirPaths = fm.urls(for: .documentDirectory, in: .userDomainMask)
+        var dirPaths = FMd.urls(for: .documentDirectory, in: .userDomainMask)
         let myDocumentsDirectory = dirPaths[0] //.documents folder for the App
         let potentiallyCurrentDirectory = myDocumentsDirectory.appendingPathComponent(ender, isDirectory: true)
         return (ender == "") ? myDocumentsDirectory : potentiallyCurrentDirectory
@@ -80,6 +83,7 @@ class FileListController: UITableViewController, FileListControllerDelegate {
     @objc private func handleCreate(){
         let newCreationController = CreationController()
         newCreationController.currentUNC = getFolderToSearch()
+        newCreationController.delegate = self
         navigationController?.pushViewController(newCreationController, animated: true)
     }
     
@@ -95,8 +99,7 @@ class FileListController: UITableViewController, FileListControllerDelegate {
     //MARK:- EXTRAS
     //    var dirPaths = [URL]() <-- needed for below functions
     public func showDirectories(){
-        let filemgr = FileManager.default
-        var dirPaths = filemgr.urls(for: .documentDirectory, in: .userDomainMask)
+        var dirPaths = FMd.urls(for: .documentDirectory, in: .userDomainMask)
         let myDocumentsDirectory = dirPaths[0]
         let newDocumentsDirectory = myDocumentsDirectory.appendingPathComponent(ender, isDirectory: true)
         var directoryContents = [URL]()

@@ -8,13 +8,11 @@
 
 import UIKit
 
-
-
 class CreationController: UIViewController {
     
     var currentUNC: URL!
-    
-    
+    private let FMd = FileManager.default
+    var delegate : FileListControllerDelegate?
     
     private var nameLabel: UILabel = {
         let tempLabel = UILabel()
@@ -24,7 +22,6 @@ class CreationController: UIViewController {
         return tempLabel
     }()
     
-    
     private lazy var nameTextField: UITextField = {
         var tempTextField = UITextField()
         tempTextField.backgroundColor = UIColor.white
@@ -33,7 +30,6 @@ class CreationController: UIViewController {
         tempTextField.widthAnchor.constraint(equalToConstant: 150).isActive = true
         return tempTextField
     }()
-    
     
     private var isFolderLabel: UILabel = {
         var tempLabel = UILabel()
@@ -65,26 +61,14 @@ class CreationController: UIViewController {
         tempStack.axis = .vertical
         tempStack.spacing = 10
         tempStack.alignment = .center
+        tempStack.translatesAutoresizingMaskIntoConstraints = false
         return tempStack
     }()
     
-    private func getCustomizedBarButton(name: String, action: Selector) -> UIBarButtonItem {
-        let infoButton = UIButton(type: .custom)
-        infoButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        infoButton.setImage(UIImage(named: name), for: .normal)
-        infoButton.addTarget(self, action: action, for: .touchUpInside)
-        let menuBarButtonItem = UIBarButtonItem(customView: infoButton)
-        menuBarButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        menuBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        return menuBarButtonItem
-    }
-    
     private func setupNavigationBar(){
         navigationController?.title = "Create File or Folder"
-        
-        let backBtn = getCustomizedBarButton(name: "backButton", action: #selector(handleBackButton))
-        navigationItem.leftBarButtonItem = backBtn
-        
+        let backButton = getCustomizedBarButton(name: "backButton", target: self, action: #selector(handleBackButton))
+        navigationItem.leftBarButtonItem = backButton
     }
     
     @objc private func handleBackButton(){
@@ -92,21 +76,15 @@ class CreationController: UIViewController {
     }
     
     @objc private func handleDoneButton(){
-        print("Done Button Pressed")
-        
-        let fm = FileManager.default
         if isFolderCheckBox.isOn {
-            print("creating file")
             let tempImage = #imageLiteral(resourceName: "info_icon")
             let newPath = currentUNC.path + "/" + nameTextField.text!
-            fm.createFile(atPath: newPath, contents:   tempImage.png  , attributes: nil)
-            print("succesfully created file  at ---> \(newPath)")
-            
+            FMd.createFile(atPath: newPath, contents:   tempImage.png  , attributes: nil)
+            delegate?.addFileDirObject(name: nameTextField.text!, isFolder: false, fileURL: URL(string: newPath)!)
         } else {
-            print("creating folder")
             do {
-                try fm.createDirectory(at: currentUNC.appendingPathComponent(nameTextField.text!), withIntermediateDirectories: false, attributes: nil)
-                print("succesfully created directory at ----> \(currentUNC.appendingPathComponent(nameTextField.text ?? "<empty>"))")
+                try FMd.createDirectory(at: currentUNC.appendingPathComponent(nameTextField.text!), withIntermediateDirectories: false, attributes: nil)
+                delegate?.addFileDirObject(name: nameTextField.text!, isFolder: true, fileURL: currentUNC)
             } catch let createDirectoryErr {
                 print("Error Creating directory at \(currentUNC) for input = \(createDirectoryErr)")
             }
@@ -116,13 +94,9 @@ class CreationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         guard let myCurrentUNC = currentUNC else {return}
-        
         print("currentUNC --> ", myCurrentUNC)
-        
         setupNavigationBar()
-        myStack.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.lightBrown
         [nameLabel, nameTextField, isFolderLabel, isFolderCheckBox, doneButton].forEach{myStack.addArrangedSubview($0)}
         view.addSubview(myStack)

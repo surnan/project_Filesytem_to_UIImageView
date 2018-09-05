@@ -55,7 +55,7 @@ extension FileListController {
                 do {
                     try fmd.moveItem(atPath: fileDirObjects[indexPath.row].fileURL.path, toPath: newPath)
                     guard let newName = (nameAlertText?.text), let newUNC = URL(string: newPath) else { return }
-                    insertFileDirObject(indexPath: indexPath, name: newName, fileURL: newUNC)
+                    editFileDirObject(indexPath: indexPath, name: newName, fileURL: newUNC)
                 } catch let moveErr {
                     print("Error trying to rename/move file: \(moveErr)")
                 }

@@ -9,7 +9,7 @@
 import UIKit
 
 extension FileListController{
-    func insertFileDirObject(indexPath: IndexPath, name: String, fileURL: URL) {
+    func editFileDirObject(indexPath: IndexPath, name: String, fileURL: URL) {
         let isFolderStatus = fileDirObjects[indexPath.row].isFolder
         deleteFileDirObject(indexPath: indexPath)
         fileDirObjects.append(FileDirObjectStruct(name: name, isFolder: isFolderStatus, url: fileURL))
@@ -28,5 +28,19 @@ extension FileListController{
     func deleteFileDirObject(indexPath: IndexPath) {
         fileDirObjects.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .left)
+    }
+    
+    func addFileDirObject(name: String, isFolder: Bool, fileURL: URL) {
+        fileDirObjects.append(FileDirObjectStruct(name: name, isFolder: isFolder, url: fileURL))
+        fileDirObjects.sort()
+        var insertionIndex = 0
+        for (index, currentObject) in fileDirObjects.enumerated() {
+            if currentObject.fileURL == fileURL {
+                insertionIndex = index
+                break
+            }
+        }
+        let insertionIndexPath = IndexPath(row: insertionIndex, section: 0)
+        tableView.insertRows(at: [insertionIndexPath], with: .right)
     }
 }
