@@ -6,7 +6,7 @@
 //  Copyright © 2018 admin. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 
 struct FileDirObjectStruct: Comparable {
@@ -20,13 +20,17 @@ struct FileDirObjectStruct: Comparable {
         self.fileURL = url
     }
     
-    public static func < (lhs: FileDirObjectStruct, rhs: FileDirObjectStruct) -> Bool {
-        if lhs.isFolder == rhs.isFolder
-        {
-            return lhs.name.capitalized < rhs.name.capitalized
+    func FileURLtoUIImageView()-> UIImage {
+        if let image = UIImage(contentsOfFile: fileURL.path) {
+            return image
         } else {
-            return lhs.isFolder
+            return UIImage()
         }
+    }
+    
+    public static func < (lhs: FileDirObjectStruct, rhs: FileDirObjectStruct) -> Bool {
+        let answer = (lhs.isFolder == rhs.isFolder) ? (lhs.name.capitalized < rhs.name.capitalized) : lhs.isFolder
+        return answer
     }
 }
 

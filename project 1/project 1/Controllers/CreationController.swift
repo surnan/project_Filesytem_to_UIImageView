@@ -12,12 +12,11 @@ import UIKit
 
 class CreationController: UIViewController {
     
-    
     var currentUNC: URL!
     
     
     
-    fileprivate var nameLabel: UILabel = {
+    private var nameLabel: UILabel = {
         let tempLabel = UILabel()
         tempLabel.text = "Please Enter Name"
         tempLabel.textColor = UIColor.black
@@ -26,7 +25,7 @@ class CreationController: UIViewController {
     }()
     
     
-    fileprivate lazy var nameTextField: UITextField = {
+    private lazy var nameTextField: UITextField = {
         var tempTextField = UITextField()
         tempTextField.backgroundColor = UIColor.white
         tempTextField.textAlignment = .center
@@ -36,7 +35,7 @@ class CreationController: UIViewController {
     }()
     
     
-    fileprivate var isFolderLabel: UILabel = {
+    private var isFolderLabel: UILabel = {
         var tempLabel = UILabel()
         tempLabel.text = "FOLDER <--------> FILE"
         tempLabel.font = UIFont.boldSystemFont(ofSize: 16)
@@ -44,13 +43,13 @@ class CreationController: UIViewController {
         return tempLabel
     }()
     
-    fileprivate lazy var isFolderCheckBox: UISwitch = {
+    private lazy var isFolderCheckBox: UISwitch = {
         var tempSwitch = UISwitch()
         tempSwitch.isOn = false
         return tempSwitch
     }()
     
-    fileprivate lazy var doneButton: UIButton = {
+    private lazy var doneButton: UIButton = {
         let tempButton = UIButton()
         tempButton.setTitle("DONE", for: .normal)
         tempButton.setTitleColor(UIColor.white, for: .normal)
@@ -61,7 +60,7 @@ class CreationController: UIViewController {
         return tempButton
     }()
     
-    fileprivate var myStack: UIStackView = {
+    private var myStack: UIStackView = {
         var tempStack = UIStackView()
         tempStack.axis = .vertical
         tempStack.spacing = 10
@@ -69,7 +68,7 @@ class CreationController: UIViewController {
         return tempStack
     }()
     
-    fileprivate func getCustomizedBarButton(name: String, action: Selector) -> UIBarButtonItem {
+    private func getCustomizedBarButton(name: String, action: Selector) -> UIBarButtonItem {
         let infoButton = UIButton(type: .custom)
         infoButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
         infoButton.setImage(UIImage(named: name), for: .normal)
@@ -80,7 +79,7 @@ class CreationController: UIViewController {
         return menuBarButtonItem
     }
     
-    fileprivate func setupNavigationBar(){
+    private func setupNavigationBar(){
         navigationController?.title = "Create File or Folder"
         
         let backBtn = getCustomizedBarButton(name: "backButton", action: #selector(handleBackButton))
@@ -88,11 +87,11 @@ class CreationController: UIViewController {
         
     }
     
-    @objc fileprivate func handleBackButton(){
+    @objc private func handleBackButton(){
         navigationController?.popViewController(animated: true)
     }
     
-    @objc fileprivate func handleDoneButton(){
+    @objc private func handleDoneButton(){
         print("Done Button Pressed")
         
         let fm = FileManager.default

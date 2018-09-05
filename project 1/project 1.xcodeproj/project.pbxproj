@@ -23,7 +23,8 @@
 		84298D2D2132604500FB5103 /* nssl0049.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84298D232132604500FB5103 /* nssl0049.jpg */; };
 		84298D2E2132604500FB5103 /* nssl0051.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84298D242132604500FB5103 /* nssl0051.jpg */; };
 		84298D2F2132604500FB5103 /* nssl0091.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84298D252132604500FB5103 /* nssl0091.jpg */; };
-		847D73C7213F5F0D002AFC68 /* Global_Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D73C6213F5F0D002AFC68 /* Global_Constants.swift */; };
+		847D73C7213F5F0D002AFC68 /* Global_Values.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D73C6213F5F0D002AFC68 /* Global_Values.swift */; };
+		847D73C9213F85A1002AFC68 /* FileListController+DelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847D73C8213F85A1002AFC68 /* FileListController+DelegateProtocol.swift */; };
 		849D9BFB213882AE008B5892 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 849D9BFA213882AD008B5892 /* Main.storyboard */; };
 		849D9BFE213A4B6D008B5892 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 849D9BFD213A4B6C008B5892 /* Default-568h@2x.png */; };
 		849D9C00213CAB6F008B5892 /* CreationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849D9BFF213CAB6F008B5892 /* CreationController.swift */; };
@@ -52,7 +53,8 @@
 		84298D232132604500FB5103 /* nssl0049.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0049.jpg; sourceTree = "<group>"; };
 		84298D242132604500FB5103 /* nssl0051.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0051.jpg; sourceTree = "<group>"; };
 		84298D252132604500FB5103 /* nssl0091.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nssl0091.jpg; sourceTree = "<group>"; };
-		847D73C6213F5F0D002AFC68 /* Global_Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global_Constants.swift; sourceTree = "<group>"; };
+		847D73C6213F5F0D002AFC68 /* Global_Values.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global_Values.swift; sourceTree = "<group>"; };
+		847D73C8213F85A1002AFC68 /* FileListController+DelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileListController+DelegateProtocol.swift"; sourceTree = "<group>"; };
 		849D9BFA213882AD008B5892 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		849D9BFD213A4B6C008B5892 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		849D9BFF213CAB6F008B5892 /* CreationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreationController.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				849D9BFC213886BD008B5892 /* Controllers */,
 				8421E745213316DB005C7189 /* UIColor+Extension.swift */,
+				847D73C6213F5F0D002AFC68 /* Global_Values.swift */,
 				84CE141F21348DEA00E87068 /* Objects.swift */,
 				8421E747213316F4005C7189 /* Support Files */,
 				84298D1B2132604500FB5103 /* Content */,
@@ -140,7 +143,7 @@
 				84CE141B21333F7600E87068 /* ShowImageController.swift */,
 				84C6A0692133195F00C73CFC /* ShowInformationController.swift */,
 				849D9BFF213CAB6F008B5892 /* CreationController.swift */,
-				847D73C6213F5F0D002AFC68 /* Global_Constants.swift */,
+				847D73C8213F85A1002AFC68 /* FileListController+DelegateProtocol.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -233,9 +236,10 @@
 				8421E744213314EA005C7189 /* FileListController+TableView.swift in Sources */,
 				84298D0C21325E8900FB5103 /* FileListController.swift in Sources */,
 				84298D0A21325E8900FB5103 /* AppDelegate.swift in Sources */,
-				847D73C7213F5F0D002AFC68 /* Global_Constants.swift in Sources */,
+				847D73C7213F5F0D002AFC68 /* Global_Values.swift in Sources */,
 				8421E746213316DB005C7189 /* UIColor+Extension.swift in Sources */,
 				849D9C00213CAB6F008B5892 /* CreationController.swift in Sources */,
+				847D73C9213F85A1002AFC68 /* FileListController+DelegateProtocol.swift in Sources */,
 				84CE14222134A3A600E87068 /* FileListCellController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

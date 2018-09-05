@@ -8,38 +8,27 @@
 
 import UIKit
 
-
 protocol FileListControllerDelegate {
-    func updateTableRemoveObject(indexPath: IndexPath)
-    func updateTableAddObject()
+    func deleteFileDirObject(indexPath: IndexPath)
+    func insertFileDirObject(indexPath: IndexPath, name: String, fileURL: URL)
 }
 
-
 class FileListController: UITableViewController, FileListControllerDelegate {
-    func updateTableRemoveObject(indexPath: IndexPath) {
-        tableView.reloadData()
-    }
-    
-    func updateTableAddObject() {
-        tableView.reloadData()
-    }
-    
     
     var fileDirObjects = [FileDirObjectStruct]()  //Array for TableView IndexPath
-    private let databaseID = "databaseID"
-    fileprivate var navTitleStr : String = "File System"
-    fileprivate var navLeftBarButtonStr: String = ""
+    private var navTitleStr : String = "File System"
+    private var navLeftBarButtonStr: String = ""
     private var ender = ""
     
-    fileprivate func getFolderToSearch() -> URL {
+    private func getFolderToSearch() -> URL {
         let fm = FileManager.default
         var dirPaths = fm.urls(for: .documentDirectory, in: .userDomainMask)
-        let myDocumentsDirectory = dirPaths[0]
+        let myDocumentsDirectory = dirPaths[0] //.documents folder for the App
         let potentiallyCurrentDirectory = myDocumentsDirectory.appendingPathComponent(ender, isDirectory: true)
         return (ender == "") ? myDocumentsDirectory : potentiallyCurrentDirectory
     }
     
-    fileprivate func setupTableView(){
+    private func setupTableView(){
         let currentFolder = getFolderToSearch()
         var directoryContents = [URL]()
         do {
@@ -58,61 +47,54 @@ class FileListController: UITableViewController, FileListControllerDelegate {
         }
     }
     
+    //MARK:- Expose Private Variables outside this file
+    func updateNavTitle(title: String) {self.navTitleStr = title}
+    func updateNavLeftBarButton(title: String) {self.navLeftBarButtonStr = title}
+    func updateEnder(path: String) {self.ender = path}
+    
+    
     //MARK:- Navigation Bar
-    fileprivate func setupNavigationController(){
+    private func setupNavigationController(){
+        let myInfoButton = getCustomizedBarButton(name: "info_icon", target: self, action: #selector(handleMatch))
         navigationItem.title = navTitleStr
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: navLeftBarButtonStr, style: .plain, target: self, action: #selector(handleLeft))
-        let myInfoButton = getCustomizedBarButton(name: "info_icon", action: #selector(handleMatch))
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(handleCreate)),
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: navLeftBarButtonStr,
+                                                           style: .plain, target: self,
+                                                           action: #selector(handleLeft))
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Create",
+                                                              style: .done,
+                                                              target: self,
+                                                              action: #selector(handleCreate)),
                                               myInfoButton]
         navigationItem.leftBarButtonItem?.tintColor = UIColor.black
         navigationItem.rightBarButtonItem?.tintColor = UIColor.black
     }
     
-    fileprivate func getCustomizedBarButton(name: String, action: Selector) -> UIBarButtonItem {
-        let infoButton = UIButton(type: .custom)
-        infoButton.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        infoButton.setImage(UIImage(named: name), for: .normal)
-        infoButton.addTarget(self, action: action, for: .touchUpInside)
-        let menuBarButtonItem = UIBarButtonItem(customView: infoButton)
-        menuBarButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24).isActive = true
-        menuBarButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        return menuBarButtonItem
-    }
-    
-    @objc fileprivate func handleLeft(){
+    @objc private func handleLeft(){
         navigationController?.popViewController(animated: true)
     }
     
-    @objc fileprivate func handleMatch(){
-        print("Match button pressed")
+    @objc private func handleMatch(){
         present(ShowInformationController(), animated: true, completion: nil)
     }
     
-    @objc fileprivate func handleCreate(){
-        print("Folder button pressed")
+    @objc private func handleCreate(){
         let newCreationController = CreationController()
         newCreationController.currentUNC = getFolderToSearch()
         navigationController?.pushViewController(newCreationController, animated: true)
     }
     
-    
-    
     //MARK:- Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        printCurrentPath()
         setupNavigationController()
         view.backgroundColor = UIColor.lightBlue
-        tableView.register(FileListCellController.self, forCellReuseIdentifier: databaseID)
+        tableView.register(FileListCellController.self, forCellReuseIdentifier: Constants.TableID.rawValue)
         setupTableView()
-//        showDirectories()
     }
-    
     
     //MARK:- EXTRAS
     //    var dirPaths = [URL]() <-- needed for below functions
-    fileprivate func showDirectories(){
+    public func showDirectories(){
         let filemgr = FileManager.default
         var dirPaths = filemgr.urls(for: .documentDirectory, in: .userDomainMask)
         let myDocumentsDirectory = dirPaths[0]
@@ -127,15 +109,11 @@ class FileListController: UITableViewController, FileListControllerDelegate {
             let subdirNamesStr = subdirs.map{ $0.lastPathComponent }
             print("ALL FILE NAMES --> \(onlyFileNamesStr)")
             print("ALL DIRECTORY NAMES --> \(subdirNamesStr)")
-            // now do whatever with the onlyFileNamesStr & subdirNamesStr
         } catch let error as NSError {
             print(error.localizedDescription)
         }
     }
     
-    fileprivate func printCurrentPath(){
-        print("Current Path = \(Bundle.main.resourcePath ?? "")")
-    }
-    
+    public func printCurrentPath(){print("Current Path = \(Bundle.main.resourcePath ?? "")")}
 }
 
