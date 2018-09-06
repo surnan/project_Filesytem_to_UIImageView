@@ -134,16 +134,24 @@
 			path = Content;
 			sourceTree = "<group>";
 		};
+		847D73CA21405099002AFC68 /* FileListController */ = {
+			isa = PBXGroup;
+			children = (
+				847D73C8213F85A1002AFC68 /* FileListController+DelegateProtocol.swift */,
+				8421E743213314EA005C7189 /* FileListController+TableView.swift */,
+				84298D0B21325E8900FB5103 /* FileListController.swift */,
+			);
+			path = FileListController;
+			sourceTree = "<group>";
+		};
 		849D9BFC213886BD008B5892 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				84298D0B21325E8900FB5103 /* FileListController.swift */,
-				8421E743213314EA005C7189 /* FileListController+TableView.swift */,
+				847D73CA21405099002AFC68 /* FileListController */,
+				849D9BFF213CAB6F008B5892 /* CreationController.swift */,
 				84CE14212134A3A600E87068 /* FileListCellController.swift */,
-				847D73C8213F85A1002AFC68 /* FileListController+DelegateProtocol.swift */,
 				84CE141B21333F7600E87068 /* ShowImageController.swift */,
 				84C6A0692133195F00C73CFC /* ShowInformationController.swift */,
-				849D9BFF213CAB6F008B5892 /* CreationController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

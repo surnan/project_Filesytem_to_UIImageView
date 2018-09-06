@@ -28,9 +28,32 @@ struct FileDirObjectStruct: Comparable {
         }
     }
     
-    public static func < (lhs: FileDirObjectStruct, rhs: FileDirObjectStruct) -> Bool {
+    static func < (lhs: FileDirObjectStruct, rhs: FileDirObjectStruct) -> Bool {
         let answer = (lhs.isFolder == rhs.isFolder) ? (lhs.name.capitalized < rhs.name.capitalized) : lhs.isFolder
         return answer
+    }
+    
+    mutating func updateName(newName: String){
+        name = newName
+        
+        
+//        let newPath = currentUNC.path + "/" + nameTextField.text!
+        
+        if isFolder {
+            let originalURL = fileURL
+            print("Orginal File URL = \(originalURL)")
+            var newURL = fileURL.deletingLastPathComponent()
+            newURL.appendPathComponent(newName)
+            fileURL = newURL
+            print("New File URL = \(fileURL)")
+        } else {
+            let originalURL = fileURL
+            print("Orginal Folder URL = \(originalURL)")
+            var newURL = fileURL.deletingLastPathComponent()
+            newURL.appendPathComponent(newName)
+            fileURL = newURL
+            print("New Folder URL = \(fileURL)")
+        }
     }
 }
 

@@ -15,14 +15,11 @@ protocol FileListControllerDelegate {
 }
 
 class FileListController: UITableViewController, FileListControllerDelegate {
-
-    
     var fileDirObjects = [FileDirObjectStruct]()  //Array for TableView IndexPath
     private var navTitleStr : String = "File System"
     private var navLeftBarButtonStr: String = ""
     private var ender = ""
     private let FMd = FileManager.default
-    
     
     private func getFolderToSearch() -> URL {
         var dirPaths = FMd.urls(for: .documentDirectory, in: .userDomainMask)
