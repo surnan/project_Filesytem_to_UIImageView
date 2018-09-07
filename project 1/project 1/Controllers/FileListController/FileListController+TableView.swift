@@ -15,10 +15,10 @@ extension FileListController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableID.rawValue, for: indexPath) as! FileListCellController
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableID.rawValue, for: indexPath) as! FileListCell
         let tempFileDirObject = fileDirObjects[indexPath.row]
         cell.currentFileDirObject = tempFileDirObject
-        cell.backgroundColor = (tempFileDirObject.isFolder ? UIColor.lightOrange : UIColor.lightPurple)
+        cell.backgroundColor = (indexPath.row % 2 == 0 ? UIColor.white : UIColor.lightBlue)
         return cell
     }
     
@@ -78,5 +78,21 @@ extension FileListController {
         editRowAction.backgroundColor = UIColor.darkBlue
         return [deleteRowAction, editRowAction]
     }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return fileDirObjects.count != 0 ? 0 : 250
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerLabel = UILabel()
+        footerLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        footerLabel.text = "This Folder is Empty\n\nClick plus icon to create file or subfolder"
+        footerLabel.numberOfLines = -1
+        footerLabel.textAlignment = .center
+        footerLabel.backgroundColor = .white
+        footerLabel.textColor = .red
+        return footerLabel
+    }
+    
 }
 

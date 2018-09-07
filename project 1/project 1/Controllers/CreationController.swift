@@ -77,7 +77,7 @@ class CreationController: UIViewController {
     
     @objc private func handleDoneButton(){
         if isFolderCheckBox.isOn {
-            let tempImage = #imageLiteral(resourceName: "info_icon")
+            let tempImage = #imageLiteral(resourceName: "info")
             let newPath = currentUNC.path + "/" + nameTextField.text!
             FMd.createFile(atPath: newPath, contents:   tempImage.png  , attributes: nil)
             delegate?.addFileDirObject(name: nameTextField.text!, isFolder: false, fileURL: URL(string: newPath)!)

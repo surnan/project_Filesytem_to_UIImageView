@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         let initialNavController = UINavigationController(rootViewController: FileListController())
-        initialNavController.navigationBar.barTintColor = UIColor.lightRed
+        initialNavController.navigationBar.barTintColor = UIColor.mediumBlue
         window?.rootViewController = initialNavController
         return true        
     }

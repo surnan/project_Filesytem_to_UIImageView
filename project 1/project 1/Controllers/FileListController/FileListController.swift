@@ -55,16 +55,17 @@ class FileListController: UITableViewController, FileListControllerDelegate {
     
     //MARK:- Navigation Bar
     private func setupNavigationController(){
-        let myInfoButton = getCustomizedBarButton(name: "info_icon", target: self, action: #selector(handleMatch))
+        let myInfoButton = getCustomizedBarButton(name: "info", target: self, action: #selector(handleMatch))
         navigationItem.title = navTitleStr
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: navLeftBarButtonStr,
                                                            style: .plain, target: self,
                                                            action: #selector(handleLeft))
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Create",
+        navigationItem.rightBarButtonItems = [myInfoButton,
+                                              UIBarButtonItem(title: "Create",
                                                               style: .done,
                                                               target: self,
-                                                              action: #selector(handleCreate)),
-                                              myInfoButton]
+                                                              action: #selector(handleCreate))
+                                              ]
         navigationItem.leftBarButtonItem?.tintColor = UIColor.black
         navigationItem.rightBarButtonItem?.tintColor = UIColor.black
     }
@@ -88,8 +89,8 @@ class FileListController: UITableViewController, FileListControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationController()
-        view.backgroundColor = UIColor.lightBlue
-        tableView.register(FileListCellController.self, forCellReuseIdentifier: Constants.TableID.rawValue)
+        view.backgroundColor = UIColor.mediumBlue
+        tableView.register(FileListCell.self, forCellReuseIdentifier: Constants.TableID.rawValue)
         setupTableView()
     }
     
