@@ -25,11 +25,8 @@ extension FileListController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let currentFileDir = fileDirObjects[indexPath.row]
         if currentFileDir.isFolder {
-            let newController = FileListController()
-            newController.updateNavTitle(title: currentFileDir.name)
-            newController.updateNavLeftBarButton(title: "Back")
-            newController.updateEnder(path: currentFileDir.name)
-            navigationController?.pushViewController(newController, animated: true)
+            let newContoller2 = childNavigationController(title: currentFileDir.name, enderPathString: currentFileDir.name, backIconNeeded: true)
+            navigationController?.pushViewController(newContoller2, animated: true)
         } else {
             let newImageController = ShowImageController()
             newImageController.currentImage = fileDirObjects[indexPath.row].FileURLtoUIImageView()
@@ -93,6 +90,15 @@ extension FileListController {
         footerLabel.textColor = .red
         return footerLabel
     }
+
     
+    //MARK:- UINavigationController Functions
+    func childNavigationController(title: String, enderPathString: String, backIconNeeded: Bool) -> FileListController {
+        let newController = FileListController()
+        newController.updateNavTitle(title: title)
+        newController.updateNavLeftBarButton(titleNeeded: true)
+        newController.updateEnder(path: enderPathString)
+        return newController
+    }
 }
 

@@ -10,7 +10,11 @@ import UIKit
 
 
 public enum Constants:String {
-    case TableID  //database Identifier for FileListController
+    case TableID        //database Identifier for FileListController
+    case info           //Asset
+    case plus           //Asset
+    case escape_arrow   //Asset
+    case left_arrow     //Asset
 }
 
 public func getCustomizedBarButton(name: String, target: Any?,action: Selector) -> UIBarButtonItem {

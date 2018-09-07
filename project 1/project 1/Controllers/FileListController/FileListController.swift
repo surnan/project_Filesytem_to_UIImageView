@@ -25,8 +25,9 @@ class FileListController: UITableViewController, FileListControllerDelegate {
         var dirPaths = FMd.urls(for: .documentDirectory, in: .userDomainMask)
         let myDocumentsDirectory = dirPaths[0] //.documents folder for the App
         let potentiallyCurrentDirectory = myDocumentsDirectory.appendingPathComponent(ender, isDirectory: true)
-        return (ender == "") ? myDocumentsDirectory : potentiallyCurrentDirectory
+        return (ender == "") ? myDocumentsDirectory : potentiallyCurrentDirectory //ender is empty at root folder
     }
+    
     
     private func setupTableView(){
         let currentFolder = getFolderToSearch()
@@ -49,27 +50,29 @@ class FileListController: UITableViewController, FileListControllerDelegate {
     
     //MARK:- Expose Private Variables outside this file
     func updateNavTitle(title: String) {self.navTitleStr = title}
-    func updateNavLeftBarButton(title: String) {self.navLeftBarButtonStr = title}
+    
+    
+    //    func updateNavLeftBarButton(title: String) {self.navLeftBarButtonStr = title}
+    func updateNavLeftBarButton(titleNeeded: Bool) {
+        let customBackButton = getCustomizedBarButton(name: Constants.left_arrow.rawValue, target: self, action: #selector(handleNavLeftBarButton))
+        navigationItem.leftBarButtonItem = customBackButton
+    }
+    
+    @objc func handleNavLeftBarButton(){
+        navigationController?.popViewController(animated: true)
+    }
+    
     func updateEnder(path: String) {self.ender = path}
     
     
-    //MARK:- Navigation Bar
+    //MARK:- Navigation Bar & Background
     private func setupNavigationController(){
-        let myInfoButton = getCustomizedBarButton(name: "info", target: self, action: #selector(handleMatch))
         navigationItem.title = navTitleStr
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: navLeftBarButtonStr,
-                                                           style: .plain, target: self,
-                                                           action: #selector(handleLeft))
-        navigationItem.rightBarButtonItems = [myInfoButton,
-                                              UIBarButtonItem(title: "Create",
-                                                              style: .done,
-                                                              target: self,
-                                                              action: #selector(handleCreate))
-                                              ]
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.black
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.black
+        let customInfoButton = getCustomizedBarButton(name: Constants.info.rawValue, target: self, action: #selector(handleMatch))
+        let customPlusButton = getCustomizedBarButton(name: Constants.plus.rawValue, target: self, action: #selector(handleCreate))
+        navigationItem.rightBarButtonItems = [customInfoButton, customPlusButton]
     }
-    
+
     @objc private func handleLeft(){
         navigationController?.popViewController(animated: true)
     }
@@ -84,8 +87,9 @@ class FileListController: UITableViewController, FileListControllerDelegate {
         newCreationController.delegate = self
         navigationController?.pushViewController(newCreationController, animated: true)
     }
-    
+
     //MARK:- Override Functions
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationController()
@@ -99,6 +103,7 @@ class FileListController: UITableViewController, FileListControllerDelegate {
     public func showDirectories(){
         var dirPaths = FMd.urls(for: .documentDirectory, in: .userDomainMask)
         let myDocumentsDirectory = dirPaths[0]
+        print("myDocumentsDirectory --> \(myDocumentsDirectory.path)")
         let newDocumentsDirectory = myDocumentsDirectory.appendingPathComponent(ender, isDirectory: true)
         var directoryContents = [URL]()
         let firstTerm = (ender == "") ? myDocumentsDirectory : newDocumentsDirectory

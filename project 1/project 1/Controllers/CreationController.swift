@@ -67,7 +67,7 @@ class CreationController: UIViewController {
     
     private func setupNavigationBar(){
         navigationController?.title = "Create File or Folder"
-        let backButton = getCustomizedBarButton(name: "backButton", target: self, action: #selector(handleBackButton))
+        let backButton = getCustomizedBarButton(name: Constants.left_arrow.rawValue , target: self, action: #selector(handleBackButton))
         navigationItem.leftBarButtonItem = backButton
     }
     
