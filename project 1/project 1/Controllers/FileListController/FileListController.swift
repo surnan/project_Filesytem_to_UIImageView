@@ -15,7 +15,7 @@ protocol FileListControllerDelegate {
 }
 
 class FileListController: UITableViewController, FileListControllerDelegate {
-    var fileDirObjects = [FileDirObjectStruct]()  //Array for TableView IndexPath
+    var fileDirObjects = [FileDirStruct]()  //Array for TableView IndexPath
     private var navTitleStr : String = "File System"
     private var navLeftBarButtonStr: String = ""
     private var ender = ""
@@ -40,7 +40,7 @@ class FileListController: UITableViewController, FileListControllerDelegate {
             let onlyFileNamesStr = onlyFileNames.map { $0.lastPathComponent }
             print(subdirNamesStr); print(onlyFileNamesStr)
             directoryContents.forEach{
-                self.fileDirObjects.append(FileDirObjectStruct(name: $0.lastPathComponent, isFolder: $0.hasDirectoryPath, url: $0.absoluteURL))
+                self.fileDirObjects.append(FileDirStruct(name: $0.lastPathComponent, isFolder: $0.hasDirectoryPath, url: $0.absoluteURL))
             }
             self.fileDirObjects.sort()
         } catch let error as NSError {

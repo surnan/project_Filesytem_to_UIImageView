@@ -12,7 +12,7 @@ extension FileListController{
     func editFileDirObject(indexPath: IndexPath, name: String, fileURL: URL) {
         let isFolderStatus = fileDirObjects[indexPath.row].isFolder
         deleteFileDirObject(indexPath: indexPath)
-        fileDirObjects.append(FileDirObjectStruct(name: name, isFolder: isFolderStatus, url: fileURL))
+        fileDirObjects.append(FileDirStruct(name: name, isFolder: isFolderStatus, url: fileURL))
         fileDirObjects.sort()
         var insertionIndex = 0
         for (index, currentObject) in fileDirObjects.enumerated() {
@@ -31,7 +31,7 @@ extension FileListController{
     }
     
     func addFileDirObject(name: String, isFolder: Bool, fileURL: URL) {
-        fileDirObjects.append(FileDirObjectStruct(name: name, isFolder: isFolder, url: fileURL))
+        fileDirObjects.append(FileDirStruct(name: name, isFolder: isFolder, url: fileURL))
         fileDirObjects.sort()
         var insertionIndex = 0
         for (index, currentObject) in fileDirObjects.enumerated() {
