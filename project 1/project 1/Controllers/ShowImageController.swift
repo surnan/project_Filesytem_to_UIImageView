@@ -11,12 +11,6 @@ import UIKit
 
 class ShowImageController:UIViewController {
     
-    var currentImage: UIImage?  {
-        didSet {
-            fileImageView.image = currentImage!
-        }
-    }
-    
     lazy var fileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.isUserInteractionEnabled = true
@@ -28,14 +22,15 @@ class ShowImageController:UIViewController {
     
     @objc private func handleTapFileImage(){
         print("Image tapped")
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        fileImageView.image = currentImage!
         [fileImageView].forEach{view.addSubview($0)}
         NSLayoutConstraint.activate([
             fileImageView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -46,7 +41,7 @@ class ShowImageController:UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        super.viewWillDisappear(animated)
+//        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 }

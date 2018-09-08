@@ -43,4 +43,16 @@ class BrowseController: UITableViewController {
         cell.backgroundColor = fileDirArray[indexPath.row].isFolder ? UIColor.lightBlue : UIColor.lightBrown
         return cell
     }
+    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if fileDirArray[indexPath.row].isFolder {
+            let newBrowseController = BrowseController()
+            navigationController?.pushViewController(newBrowseController, animated: true)
+        } else {
+            let newShowImageController = ShowImageController()
+            newShowImageController.fileImageView.image = UIImage(named: Constants.background2.rawValue)
+            present(newShowImageController, animated: false)
+        }
+    }
 }

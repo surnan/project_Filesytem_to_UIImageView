@@ -15,6 +15,19 @@ public enum Constants:String {
     case plus           //Asset
     case escape_arrow   //Asset
     case left_arrow     //Asset
+    case background2    //Asset
+    case background3    //Asset
+    case backgroundPattern  //Asset
+    case file           //Asset
+    case file2          //Asset
+    case folder         //Asset
+    case largerBackgroundPattern    //Asset
+    case largestBackgroundPattern   //Asset
+    case plus2          //Asset
+    case right_arrow    //Asset
+    case right_arrow2   //Asset
+    case right          //Asset
+    case right2         //Asset
 }
 
 public func getCustomizedBarButton(name: String, target: Any?,action: Selector) -> UIBarButtonItem {
