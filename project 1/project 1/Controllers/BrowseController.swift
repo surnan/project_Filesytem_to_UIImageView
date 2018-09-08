@@ -17,7 +17,7 @@ class BrowseController: UITableViewController {
     //MARK:- override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.veryLightGrey
         confirmParentFolder()
         loadTableView()
     }
@@ -25,6 +25,8 @@ class BrowseController: UITableViewController {
     
     //MARK:- FileSystem functions
     private func loadTableView(){
+//        tableview.separatorStyle = .none
+        
         let fmD = FileManager.default
         do {
             let folderContents = try fmD.contentsOfDirectory(at: (parentFolder?.currentURL)!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
@@ -70,5 +72,24 @@ class BrowseController: UITableViewController {
             newShowImageController.fileImageView.image = UIImage(named: Constants.background2.rawValue)
             present(newShowImageController, animated: false)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let footerLabel = UILabel()
+        footerLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        footerLabel.text = "This Folder is Empty\n\nClick plus icon to create file or subfolder"
+        footerLabel.numberOfLines = -1
+        footerLabel.textAlignment = .center
+        footerLabel.backgroundColor = .white
+        footerLabel.textColor = .red
+        return footerLabel
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return fileDirArray.count != 0 ? 0 : view.bounds.height
+    }
+
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
     }
 }
