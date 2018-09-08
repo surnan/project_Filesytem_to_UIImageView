@@ -17,17 +17,17 @@ struct FileDirStruct: Comparable {
             return currentURL.lastPathComponent
         }
     }
+    
+    static func createFirstParent() -> FileDirStruct{
+        let fmD = FileManager.default
+        let allDirectoryURLs = fmD.urls(for: .documentDirectory, in: .userDomainMask)
+        let userDocumentDirectory = allDirectoryURLs[0] //.documents folder for the App
+        return FileDirStruct(currentURL: userDocumentDirectory, isFolder: true)
+    }
 
-    init(name: String, isFolder: Bool, parentDir: FileDirStruct?){
+    init(name: String, isFolder: Bool, parentDir: FileDirStruct){
         self.isFolder = isFolder
-        if let existingParentDir = parentDir {
-            self.currentURL = existingParentDir.currentURL.appendingPathComponent(name)
-        } else {
-            let FMd = FileManager.default
-            var dirPaths = FMd.urls(for: .documentDirectory, in: .userDomainMask)
-            let myDocumentsDirectory = dirPaths[0] //.documents folder for the App
-            self.currentURL = myDocumentsDirectory.appendingPathComponent(name)
-        }
+        self.currentURL = parentDir.currentURL.appendingPathComponent(name)
     }
 
     private init(currentURL: URL, isFolder: Bool){
@@ -41,7 +41,7 @@ struct FileDirStruct: Comparable {
         let tempFileDirObject = FileDirStruct(currentURL: tempUNC2, isFolder: from.isFolder)
         return tempFileDirObject
     }
-
+    
     func FileURLtoUIImageView()-> UIImage {
         if let image = UIImage(contentsOfFile: currentURL.path) {
             return image
@@ -55,18 +55,3 @@ struct FileDirStruct: Comparable {
         return answer
     }
 }
-
-
-
-//    init(parentDir: FileDirStruct, name: String, isFolder: Bool){
-//        self.isFolder = isFolder
-//        self.currentURL = parentDir.currentURL.appendingPathComponent(name)
-//    }
-//
-//    init(name: String, isFolder: Bool){
-//        let FMd = FileManager.default
-//        var dirPaths = FMd.urls(for: .documentDirectory, in: .userDomainMask)
-//        let myDocumentsDirectory = dirPaths[0] //.documents folder for the App
-//        self.isFolder = isFolder
-//        self.currentURL = myDocumentsDirectory.appendingPathComponent(name)
-//    }

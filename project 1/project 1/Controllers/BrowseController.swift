@@ -11,28 +11,42 @@ import UIKit
 
 class BrowseController: UITableViewController {
     
-    var fileDirArray = [FileDirStruct]()
-    var parentFolder: FileDirStruct?
-    
-    private func loadTableView(){
-        let fmD = FileManager.default
-        let allURL = fmD.urls(for: .documentDirectory, in: .userDomainMask)
-        do {
-            let folderContents = try fmD.contentsOfDirectory(at: allURL.first!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-            folderContents.forEach{fileDirArray.append(FileDirStruct(name: $0.lastPathComponent, isFolder: $0.hasDirectoryPath, parentDir: nil))}
-        } catch let loadingError {
-            print("Unable to load TableView \(loadingError)")
-        }
-    }
-    
-    
+    private var fileDirArray = [FileDirStruct]() //array that loads table
+    private var parentFolder: FileDirStruct?
+
+    //MARK:- override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        confirmParentFolder()
         loadTableView()
     }
     
     
+    //MARK:- FileSystem functions
+    private func loadTableView(){
+        let fmD = FileManager.default
+        do {
+            let folderContents = try fmD.contentsOfDirectory(at: (parentFolder?.currentURL)!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            guard let guardParentFolder = parentFolder else {return}
+            folderContents.forEach{fileDirArray.append(FileDirStruct(name: $0.lastPathComponent, isFolder: $0.hasDirectoryPath, parentDir: guardParentFolder))}
+        } catch let loadingError {
+            print("Failure on 'try' to load DocumentDirectory URLs: \(loadingError)")
+        }
+    }
+    
+    private func updateParentFolder(subFolderName: String = "<INVALID>")-> FileDirStruct {
+        return parentFolder == nil ? FileDirStruct.createFirstParent() : FileDirStruct(name: subFolderName, isFolder: true, parentDir: parentFolder!)
+    }
+    
+    private func confirmParentFolder(){
+        if parentFolder == nil {
+            parentFolder = FileDirStruct.createFirstParent()
+        }
+    }
+    
+    
+    //MARK:- TableView Functions
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fileDirArray.count
     }
@@ -44,10 +58,12 @@ class BrowseController: UITableViewController {
         return cell
     }
     
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Clicked on --> \(fileDirArray[indexPath.row].name)")
+        print("Current URL --> \(fileDirArray[indexPath.row].currentURL)\n")
         if fileDirArray[indexPath.row].isFolder {
             let newBrowseController = BrowseController()
+            newBrowseController.parentFolder = updateParentFolder(subFolderName: fileDirArray[indexPath.row].name)
             navigationController?.pushViewController(newBrowseController, animated: true)
         } else {
             let newShowImageController = ShowImageController()
