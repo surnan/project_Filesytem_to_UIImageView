@@ -16,7 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         window?.makeKeyAndVisible()
-        let initialNavController = UINavigationController(rootViewController: FileListController())
+//        let initialNavController = UINavigationController(rootViewController: FileListController())
+        let initialNavController = UINavigationController(rootViewController: BrowseController())
         initialNavController.navigationBar.barTintColor = UIColor.mediumBlue
         window?.rootViewController = initialNavController
         return true        
