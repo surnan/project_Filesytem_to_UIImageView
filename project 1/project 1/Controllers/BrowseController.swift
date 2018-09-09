@@ -10,7 +10,39 @@ import UIKit
 import CoreText
 
 
-class BrowseController: UITableViewController{
+protocol BrowseControllerDelegate {
+    func createFileDirArrayElement(name: String, isFolder: Bool, parentDir: FileDirStruct)
+}
+
+
+class BrowseController: UITableViewController, BrowseControllerDelegate{
+    
+    func createFileDirArrayElement(name: String, isFolder: Bool, parentDir: FileDirStruct) {
+        let fmD = FileManager.default
+        let newPath = parentDir.currentURL.appendingPathComponent(name)
+        
+        if isFolder {
+            do {
+                try fmD.createDirectory(atPath: newPath.path, withIntermediateDirectories: false, attributes: nil)
+                print("SUCCESFULLY CREATED DIRECTORY???")
+            } catch let createDirError {
+                print("Problem creating directory at: \(newPath.path).  Error = \(createDirError)")
+                return
+            }
+        } else {
+            let tempImage = #imageLiteral(resourceName: "background2")
+            let newPath = parentDir.currentURL.appendingPathComponent(name)
+            fmD.createFile(atPath: newPath.path, contents: tempImage.png, attributes: nil)
+            print("SUCCESFULLY CREATED FILE???")
+        }
+        
+        let newArrayElement = FileDirStruct(name: name, isFolder: isFolder, parentDir: parentDir)
+        fileDirArray.append(newArrayElement)
+        fileDirArray.sort()
+        guard let insertionIndex = fileDirArray.index(of: newArrayElement) else {return}
+        tableView.insertRows(at: [IndexPath(row: insertionIndex, section: 0)], with: .right)
+    }
+    
     var fileDirArray = [FileDirStruct]()    //TableView.Array
     var parentFolder: FileDirStruct?        //didSelectRowAt
     let fmD = FileManager.default
@@ -72,9 +104,14 @@ class BrowseController: UITableViewController{
     
     @objc func handlePlusBarButton(){
         let newCreationController = CreationController()
-        navigationController?.pushViewController(newCreationController, animated: true)
+        newCreationController.parentFolder = parentFolder
+        newCreationController.delegate = self
+//        navigationController?.pushViewController(newCreationController, animated: true)
+        
+        present(newCreationController, animated: false)
+        
     }
-
+    
     @objc func handleInfoBarButton(){
         print("clicked info")
     }

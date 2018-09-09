@@ -10,10 +10,10 @@ import UIKit
 
 class CreationController: UIViewController {
 
-    var currentUNC: URL!
-    private let FMd = FileManager.default
-//    var delegate : FileListControllerDelegate?
+    var parentFolder: FileDirStruct!
+    var delegate: BrowseControllerDelegate?
 
+    
     private var nameLabel: UILabel = {
         let tempLabel = UILabel()
         tempLabel.text = "Please Enter Name"
@@ -76,7 +76,8 @@ class CreationController: UIViewController {
     }
 
     @objc private func handleDoneButton(){
-        navigationController?.popViewController(animated: true)
+        delegate?.createFileDirArrayElement(name: nameTextField.text!, isFolder: !isFolderCheckBox.isOn, parentDir: parentFolder)
+        dismiss(animated: false)
     }
 
     override func viewDidLoad() {
