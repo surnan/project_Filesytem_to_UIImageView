@@ -9,12 +9,11 @@
 import UIKit
 
 
-class FileListCell: UITableViewCell {
+class BrowseCell: UITableViewCell {
     
     var currentFileDirObject: FileDirStruct!  {
         didSet {
             nameLabel.text = currentFileDirObject.name
-//            isFolderLabel.text = (currentFileDirObject.isFolder ? "---->" : "")
             isFolderIconLeadingImageView.image = currentFileDirObject.isFolder ? #imageLiteral(resourceName: "folder") : #imageLiteral(resourceName: "file2")
             isFolderIconTrailingImageView.image = currentFileDirObject.isFolder ? #imageLiteral(resourceName: "right2") : UIImage()
         }

@@ -16,34 +16,10 @@ protocol BrowseControllerDelegate {
 
 
 class BrowseController: UITableViewController, BrowseControllerDelegate{
-    
-    func createFileDirArrayElement(name: String, isFolder: Bool, parentDir: FileDirStruct) {
-        let fmD = FileManager.default
-        let newPath = parentDir.currentURL.appendingPathComponent(name)
-        
-        if isFolder {
-            do {
-                try fmD.createDirectory(atPath: newPath.path, withIntermediateDirectories: false, attributes: nil)
-            } catch let createDirError {
-                print("Problem creating directory at: \(newPath.path).  Error = \(createDirError)")
-                return
-            }
-        } else {
-            let tempImage = #imageLiteral(resourceName: "background2")
-            let newPath = parentDir.currentURL.appendingPathComponent(name)
-            fmD.createFile(atPath: newPath.path, contents: tempImage.png, attributes: nil)
-        }
-        
-        let newArrayElement = FileDirStruct(name: name, isFolder: isFolder, parentDir: parentDir)
-        fileDirArray.append(newArrayElement)
-        fileDirArray.sort()
-        guard let insertionIndex = fileDirArray.index(of: newArrayElement) else {return}
-        tableView.insertRows(at: [IndexPath(row: insertionIndex, section: 0)], with: .right)
-    }
-    
     var fileDirArray = [FileDirStruct]()    //TableView.Array
     var parentFolder: FileDirStruct?        //didSelectRowAt
     let fmD = FileManager.default
+    private var showLeftBarButton = true
     
     //MARK:- manipulate tableView array
     func renameFileDirArrayElement(currentFileDir: FileDirStruct, newName: String, indexPath: IndexPath){
@@ -97,6 +73,10 @@ class BrowseController: UITableViewController, BrowseControllerDelegate{
         let plusBarButtonFunc = getCustomizedBarButton(name: Constants.plus.rawValue, target: self, action: #selector(handlePlusBarButton))
         let infoBarButtonFunc = getCustomizedBarButton(name: Constants.info.rawValue, target: self, action: #selector(handleInfoBarButton))
         navigationItem.rightBarButtonItems = [infoBarButtonFunc, plusBarButtonFunc]
+        
+        let leftBarButtonItem = getCustomizedBarButton(name: Constants.left_arrow.rawValue, target: self, action: #selector(handleLeftArrowBarButton))
+        
+        navigationItem.leftBarButtonItem = showLeftBarButton ? leftBarButtonItem : nil
     }
     
     
@@ -104,8 +84,6 @@ class BrowseController: UITableViewController, BrowseControllerDelegate{
         let newCreationController = CreationController()
         newCreationController.parentFolder = parentFolder
         newCreationController.delegate = self
-//        navigationController?.pushViewController(newCreationController, animated: true)
-        
         present(newCreationController, animated: false)
         
     }
@@ -114,13 +92,17 @@ class BrowseController: UITableViewController, BrowseControllerDelegate{
         print("clicked info")
     }
     
+    @objc func handleLeftArrowBarButton(){
+        navigationController?.popViewController(animated: true)
+    }
     
     //MARK:- override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
+        tableView.register(BrowseCell.self, forCellReuseIdentifier: Constants.TableID.rawValue)
         view.backgroundColor = UIColor.veryLightGrey
         confirmParentFolder()
+        setupNavigationBar()
         loadTableView()
     }
     
@@ -143,7 +125,9 @@ class BrowseController: UITableViewController, BrowseControllerDelegate{
     private func confirmParentFolder(){
         if parentFolder == nil {
             parentFolder = FileDirStruct.createFirstParent()
+            showLeftBarButton = false
         }
+        
     }
 }
 

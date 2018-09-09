@@ -15,9 +15,8 @@ extension BrowseController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = fileDirArray[indexPath.row].name
-        cell.backgroundColor = fileDirArray[indexPath.row].isFolder ? UIColor.lightBlue : UIColor.lightBrown
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableID.rawValue) as! BrowseCell
+        cell.currentFileDirObject = fileDirArray[indexPath.row]
         return cell
     }
     
