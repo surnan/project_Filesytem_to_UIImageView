@@ -7,13 +7,10 @@
 //
 
 import UIKit
-import CoreText
-
 
 protocol BrowseControllerDelegate {
     func createFileDirArrayElement(name: String, isFolder: Bool, parentDir: FileDirStruct)
 }
-
 
 class BrowseController: UITableViewController, BrowseControllerDelegate{
     var fileDirArray = [FileDirStruct]()    //TableView.Array
@@ -73,26 +70,34 @@ class BrowseController: UITableViewController, BrowseControllerDelegate{
         let plusBarButtonFunc = getCustomizedBarButton(name: Constants.plus.rawValue, target: self, action: #selector(handlePlusBarButton))
         let infoBarButtonFunc = getCustomizedBarButton(name: Constants.info.rawValue, target: self, action: #selector(handleInfoBarButton))
         navigationItem.rightBarButtonItems = [infoBarButtonFunc, plusBarButtonFunc]
-        
         let leftBarButtonItem = getCustomizedBarButton(name: Constants.left_arrow.rawValue, target: self, action: #selector(handleLeftArrowBarButton))
-        
         navigationItem.leftBarButtonItem = showLeftBarButton ? leftBarButtonItem : nil
     }
     
-    
-    @objc func handlePlusBarButton(){
+    @objc private func handlePlusBarButton(){
         let newCreationController = CreationController()
         newCreationController.parentFolder = parentFolder
         newCreationController.delegate = self
-        present(newCreationController, animated: false)
+        present(newCreationController, animated: true)
+    }
+    
+    @objc private func handleInfoBarButton(){
+        let blur = UIBlurEffect(style: .dark)
+        let blurVisualEffectView = UIVisualEffectView(effect: blur)
+        blurVisualEffectView.frame = UIScreen.main.bounds
+        blurVisualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
+        //        self.view.insertSubview(blurVisualEffectView, at: 0)
+        self.view.addSubview(blurVisualEffectView)  //<--- hides everything
+        
+        let infoAlertController = UIAlertController(title: "Current File System Path", message: "\(parentFolder?.currentURL.path ?? "")", preferredStyle: .alert)
+        infoAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            blurVisualEffectView.removeFromSuperview()
+        }))
+        present(infoAlertController, animated: true)
     }
     
-    @objc func handleInfoBarButton(){
-        print("clicked info")
-    }
-    
-    @objc func handleLeftArrowBarButton(){
+    @objc private func handleLeftArrowBarButton(){
         navigationController?.popViewController(animated: true)
     }
     
@@ -127,19 +132,27 @@ class BrowseController: UITableViewController, BrowseControllerDelegate{
             parentFolder = FileDirStruct.createFirstParent()
             showLeftBarButton = false
         }
-        
     }
 }
 
-
-
-
-
-
-
-
-
-
+/*
+ @objc func handleBlurBarButton3(){
+ let blurEffect = (NSClassFromString("_UICustomBlurEffect") as! UIBlurEffect.Type).init()
+ blurEffect.setValue(1, forKey: "blurRadius")
+ //////
+ let blurVisualEffectView = UIVisualEffectView(effect: blurEffect)
+ blurVisualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+ blurVisualEffectView.frame = UIScreen.main.bounds
+ self.view.addSubview(blurVisualEffectView)
+ 
+ let myAlertController = UIAlertController(title: "BLUR", message: "You Are being Blurred", preferredStyle: .alert)
+ myAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [unowned self] (_) in
+ blurVisualEffectView.removeFromSuperview()
+ self.navigationController?.isNavigationBarHidden = false
+ }))
+ present(myAlertController, animated: true)
+ }
+ */
 
 
 

@@ -17,6 +17,7 @@ extension BrowseController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableID.rawValue) as! BrowseCell
         cell.currentFileDirObject = fileDirArray[indexPath.row]
+        cell.backgroundColor = indexPath.row % 2 == 0 ? UIColor.lightPurple : UIColor.lightBlue
         return cell
     }
     
@@ -35,7 +36,7 @@ extension BrowseController {
             navigationController?.pushViewController(newBrowseController, animated: true)
         } else {
             let newShowImageController = ShowImageController()
-            newShowImageController.fileImageView.image = UIImage(named: Constants.background2.rawValue)
+            newShowImageController.fileImageView.image = UIImage(contentsOfFile: fileDirArray[indexPath.row].currentURL.path)
             present(newShowImageController, animated: false)
         }
     }

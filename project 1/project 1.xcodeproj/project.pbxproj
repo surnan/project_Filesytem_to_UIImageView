@@ -108,9 +108,9 @@
 			children = (
 				849D9BFC213886BD008B5892 /* Controllers */,
 				8421E745213316DB005C7189 /* UIColor+Extension.swift */,
-				84CE14212134A3A600E87068 /* BrowseCell.swift */,
-				847D73C6213F5F0D002AFC68 /* Global_Values.swift */,
 				84CE141F21348DEA00E87068 /* Objects.swift */,
+				847D73C6213F5F0D002AFC68 /* Global_Values.swift */,
+				84CE14212134A3A600E87068 /* BrowseCell.swift */,
 				8421E747213316F4005C7189 /* Support Files */,
 				84298D1B2132604500FB5103 /* Content */,
 				84298D1521325E8B00FB5103 /* Info.plist */,
@@ -138,12 +138,12 @@
 		849D9BFC213886BD008B5892 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				84CE141B21333F7600E87068 /* ShowImageController.swift */,
-				84C6A0692133195F00C73CFC /* ShowInformationController.swift */,
 				84A27D2E214386DF0077F069 /* BrowseController.swift */,
 				84A27D3521455A2A0077F069 /* BrowseController+Delegate.swift */,
 				84A27D3021446ACB0077F069 /* BrowseController+TableView.swift */,
 				84A27D332144DF2C0077F069 /* CreationCrontroller.swift */,
+				84CE141B21333F7600E87068 /* ShowImageController.swift */,
+				84C6A0692133195F00C73CFC /* ShowInformationController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

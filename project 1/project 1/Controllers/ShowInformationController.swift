@@ -38,34 +38,25 @@ class ShowInformationController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    
-    
+
     @objc private func handleBackButton(){
         dismiss(animated: true, completion: nil)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.lightBlue
-        
         [explanationText, backButton].forEach{view.addSubview($0)}
-        
-        
         NSLayoutConstraint.activate([
             explanationText.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             explanationText.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             explanationText.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            
             backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             backButton.widthAnchor.constraint(equalToConstant: 100),
             backButton.topAnchor.constraint(equalTo: explanationText.bottomAnchor, constant: 30)
             ]
         )
 
-
-//        view.addSubview(backgroundView)
         view.insertSubview(backgroundView, belowSubview: explanationText)
         backgroundView.topAnchor.constraint(equalTo: explanationText.topAnchor, constant: 5).isActive = true
         backgroundView.bottomAnchor.constraint(equalTo: explanationText.bottomAnchor, constant: 5).isActive = true

@@ -19,7 +19,7 @@ class BrowseCell: UITableViewCell {
         }
     }
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textAlignment = .left
@@ -27,7 +27,7 @@ class BrowseCell: UITableViewCell {
         return label
     }()
 
-    let isFolderIconLeadingImageView: UIImageView = {
+    private let isFolderIconLeadingImageView: UIImageView = {
        let tempImageView = UIImageView()
         tempImageView.translatesAutoresizingMaskIntoConstraints = false
         tempImageView.contentMode = .scaleAspectFit
@@ -36,7 +36,7 @@ class BrowseCell: UITableViewCell {
         return tempImageView
     }()
     
-    let isFolderIconTrailingImageView: UIImageView = {
+    private let isFolderIconTrailingImageView: UIImageView = {
         let tempImageView = UIImageView()
         tempImageView.contentMode = .scaleToFill
         tempImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -45,7 +45,7 @@ class BrowseCell: UITableViewCell {
         return tempImageView
     }()
 
-    var myStackView2: UIStackView = {
+    private var myStackView2: UIStackView = {
         var temp = UIStackView()
         temp.axis = .horizontal
         temp.distribution = .fill
@@ -72,47 +72,4 @@ class BrowseCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-//MARK:- extras
-
-//  override init(...)
-//        [nameLabel, isFolderLabel].forEach{addSubview($0)}
-//        NSLayoutConstraint.activate([
-//            nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-//            nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-//            isFolderLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-//            isFolderLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -25),
-//            ])
-
-/* //The below breaks formatting and can't figure out why
- [nameLabel, isFolderLabel].forEach{myStackView.addSubview($0)}
- addSubview(myStackView)
- NSLayoutConstraint.activate([
- myStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
- myStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 15),
- myStackView.topAnchor.constraint(equalTo: topAnchor),
- myStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
- ]) */
-
-
-
-
-
-
-//let isFolderLabel: UILabel = {
-//    let label = UILabel()
-//    label.font = UIFont.boldSystemFont(ofSize: 14)
-//    label.translatesAutoresizingMaskIntoConstraints = false
-//    return label
-//}()
-//
-//var myStackView: UIStackView = {
-//    var temp = UIStackView()
-//    temp.axis = .horizontal
-//    temp.distribution = .equalCentering
-//    temp.alignment = .center
-//    temp.spacing = 20
-//    temp.translatesAutoresizingMaskIntoConstraints = false
-//    return temp
-//}()
 
