@@ -71,7 +71,8 @@ class BrowseController: UITableViewController{
     
     
     @objc func handlePlusBarButton(){
-        print("clicked plus")
+        let newCreationController = CreationController()
+        navigationController?.pushViewController(newCreationController, animated: true)
     }
 
     @objc func handleInfoBarButton(){
