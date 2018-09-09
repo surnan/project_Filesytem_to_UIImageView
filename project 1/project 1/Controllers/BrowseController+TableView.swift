@@ -31,8 +31,6 @@ extension BrowseController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Clicked on --> \(fileDirArray[indexPath.row].name)")
-        print("Current URL --> \(fileDirArray[indexPath.row].currentURL)\n")
         if fileDirArray[indexPath.row].isFolder {
             let newBrowseController = BrowseController()
             newBrowseController.parentFolder = updateParentFolder(subFolderName: fileDirArray[indexPath.row].name)
@@ -76,8 +74,8 @@ extension BrowseController {
     //MARK:- Action Handlers
     private func deleteActionHandler(action:UITableViewRowAction, indexPath: IndexPath){
         let deleteAlertController = UIAlertController(title: "DELETE", message: "Please confirm deletion request", preferredStyle: .alert)
-        deleteAlertController.addAction(UIAlertAction(title: "Confirm Delete", style: .destructive, handler: { _ in
-            print("Delete Selected --> \(self.fileDirArray[indexPath.row].name)")
+        deleteAlertController.addAction(UIAlertAction(title: "Confirm Delete", style: .destructive, handler: {[unowned self] _ in
+            self.deleteFileDirArrayElement(indexPath: indexPath)
         }))
         deleteAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(deleteAlertController, animated: true)
@@ -91,9 +89,8 @@ extension BrowseController {
             input.clearsOnBeginEditing = true
             potentialNameChangeTextField = input
         }
-        editAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
-            print("Editing COMPLETE!!! --> \(potentialNameChangeTextField?.text ?? "")")
-            print("Edit Selected --> \(self.fileDirArray[indexPath.row].name)")
+        editAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [unowned self] (_) in
+            self.renameFileDirArrayElement(currentFileDir: self.fileDirArray[indexPath.row], newName: (potentialNameChangeTextField?.text)!, indexPath: indexPath)
         }))
         editAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(editAlertController, animated: true)

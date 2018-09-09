@@ -11,9 +11,57 @@ import CoreText
 
 
 class BrowseController: UITableViewController{
-    var fileDirArray = [FileDirStruct]() //array that loads table
-    var parentFolder: FileDirStruct?
-
+    var fileDirArray = [FileDirStruct]()    //TableView.Array
+    var parentFolder: FileDirStruct?        //didSelectRowAt
+    let fmD = FileManager.default
+    
+    //MARK:- manipulate tableView array
+    func renameFileDirArrayElement(currentFileDir: FileDirStruct, newName: String, indexPath: IndexPath){
+        if !renameInFileSystem(currentFileDir: currentFileDir, newName: newName) {
+            print("Unable to make corresponding change in File System")
+            return
+        }
+        let newArrayElement = FileDirStruct.change(from: currentFileDir, newName: newName)
+        fileDirArray.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .left)
+        fileDirArray.append(newArrayElement)
+        fileDirArray.sort()
+        guard let insertionIndex = fileDirArray.index(of: newArrayElement) else {return}
+        tableView.insertRows(at: [IndexPath(row: insertionIndex, section: 0)], with: .right)
+    }
+    
+    func deleteFileDirArrayElement(indexPath: IndexPath){
+        if !deleteInFileSystem(currentFileDir: fileDirArray[indexPath.row]) {
+            print("Unableto make corresponding change in File System")
+            return
+        }
+        fileDirArray.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .right)
+    }
+    
+    //MARK:- FileSystem Functions
+    private func renameInFileSystem(currentFileDir: FileDirStruct, newName: String)-> Bool{
+        let newLocation = currentFileDir.currentURL.deletingLastPathComponent().appendingPathComponent(newName)
+        do {
+            try fmD.moveItem(at: currentFileDir.currentURL, to: newLocation)
+            return true
+        } catch let moveErr {
+            print("Unable to move/rename object: \(moveErr)")
+            return false
+        }
+    }
+    
+    private func deleteInFileSystem(currentFileDir: FileDirStruct) -> Bool{
+        do {
+            try fmD.removeItem(at: currentFileDir.currentURL)
+            return true
+        } catch let deletionErr {
+            print("Unable to remove object: \(deletionErr)")
+            return false
+        }
+    }
+    
+    
     //MARK:- override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +72,11 @@ class BrowseController: UITableViewController{
     
     //MARK:- FileSystem functions
     private func loadTableView(){
-        let fmD = FileManager.default
         do {
             let folderContents = try fmD.contentsOfDirectory(at: (parentFolder?.currentURL)!, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
             guard let guardParentFolder = parentFolder else {return}
             folderContents.forEach{fileDirArray.append(FileDirStruct(name: $0.lastPathComponent, isFolder: $0.hasDirectoryPath, parentDir: guardParentFolder))}
+            fileDirArray.sort()
         } catch let loadingError {
             print("Failure on 'try' to load DocumentDirectory URLs: \(loadingError)")
         }
