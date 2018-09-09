@@ -22,7 +22,6 @@ extension BrowseController {
     }
     
     
-    
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let editAction = UITableViewRowAction(style: .normal, title: "Edit", handler: editActionHandler)
         let deleteAction = UITableViewRowAction(style: .destructive , title: "Delete", handler: deleteActionHandler)

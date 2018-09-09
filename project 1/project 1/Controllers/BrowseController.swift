@@ -61,10 +61,28 @@ class BrowseController: UITableViewController{
         }
     }
     
+    //MARK:-NavigationBar
+    private func setupNavigationBar(){
+        navigationItem.title = "File Browser"
+        let plusBarButtonFunc = getCustomizedBarButton(name: Constants.plus.rawValue, target: self, action: #selector(handlePlusBarButton))
+        let infoBarButtonFunc = getCustomizedBarButton(name: Constants.info.rawValue, target: self, action: #selector(handleInfoBarButton))
+        navigationItem.rightBarButtonItems = [infoBarButtonFunc, plusBarButtonFunc]
+    }
+    
+    
+    @objc func handlePlusBarButton(){
+        print("clicked plus")
+    }
+
+    @objc func handleInfoBarButton(){
+        print("clicked info")
+    }
+    
     
     //MARK:- override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         view.backgroundColor = UIColor.veryLightGrey
         confirmParentFolder()
         loadTableView()
@@ -92,3 +110,16 @@ class BrowseController: UITableViewController{
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
