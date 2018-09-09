@@ -21,6 +21,75 @@ extension BrowseController {
         return cell
     }
     
+    
+    private func defineAlertControllers(){
+        let deleteAlertController = UIAlertController(title: "DELETE", message: "Please confirm deletion request", preferredStyle: .alert)
+        deleteAlertController.addAction(UIAlertAction(title: "Confirm Delete", style: .destructive, handler: { _ in
+            print("ITEM DELETED!!")
+        }))
+        deleteAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+    }
+    
+    
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        //--------------
+        let deleteAlertController = UIAlertController(title: "DELETE", message: "Please confirm deletion request", preferredStyle: .alert)
+        deleteAlertController.addAction(UIAlertAction(title: "Confirm Delete", style: .destructive, handler: { _ in
+            print("ITEM DELETED!!")
+        }))
+        deleteAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        func deleteActionHandler(action:UITableViewRowAction, indexPath: IndexPath){
+            print("Delete Selected --> \(fileDirArray[indexPath.row].name)")
+            present(deleteAlertController, animated: true)
+        }
+        //--------------
+        var potentialNameChangeStr = ""
+        var potentialNameChangeTextField: UITextField?
+        
+        let editAlertController = UIAlertController(title: "EDIT", message: "Please Enter New Name: ", preferredStyle: .alert)
+        editAlertController.addTextField { (input) in
+            input.clearButtonMode = .whileEditing
+            input.clearsOnBeginEditing = true
+            potentialNameChangeStr = input.text! //input can only get empty string NOT null
+            potentialNameChangeTextField = input
+        }
+        editAlertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            print("Editing COMPLETE!!! --> \(potentialNameChangeTextField?.text ?? "")")
+        }))
+        editAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        func editActionHandler(action:UITableViewRowAction, indexPath: IndexPath){
+            print("Edit Selected --> \(fileDirArray[indexPath.row].name)")
+            print("Editing COMPLETE!!! --> \(potentialNameChangeStr)")
+            present(editAlertController, animated: true)
+        }
+        //--------------
+        let editAction = UITableViewRowAction(style: .normal, title: "Edit", handler: editActionHandler)
+        let deleteAction = UITableViewRowAction(style: .destructive , title: "Delete", handler: deleteActionHandler)
+        editAction.backgroundColor = UIColor.darkBlue
+        return [deleteAction, editAction]
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Clicked on --> \(fileDirArray[indexPath.row].name)")
         print("Current URL --> \(fileDirArray[indexPath.row].currentURL)\n")
@@ -63,4 +132,6 @@ extension BrowseController {
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }
+    
+    
 }
