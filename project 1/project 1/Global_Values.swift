@@ -41,4 +41,7 @@ public func getCustomizedBarButton(name: String, target: Any?,action: Selector) 
     return menuBarButtonItem
 }
 
+public func printCurrentPath(){
+    print("Current Path = \(Bundle.main.resourcePath ?? "")")
+}
 

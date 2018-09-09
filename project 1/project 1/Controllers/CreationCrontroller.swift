@@ -51,7 +51,16 @@ class CreationController: UIViewController {
         tempButton.setTitleColor(UIColor.white, for: .normal)
         tempButton.backgroundColor = UIColor.darkBlue
         tempButton.addTarget(self, action: #selector(handleDoneButton), for: .touchDown)
-        tempButton.translatesAutoresizingMaskIntoConstraints  = false
+        tempButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
+        return tempButton
+    }()
+    
+    private lazy var cancelButton: UIButton = {
+        let tempButton = UIButton()
+        tempButton.setTitle("Cancel", for: .normal)
+        tempButton.setTitleColor(UIColor.white, for: .normal)
+        tempButton.backgroundColor = UIColor.lightRed
+        tempButton.addTarget(self, action: #selector(handleCancelButton), for: .touchDown)
         tempButton.widthAnchor.constraint(equalToConstant: 125).isActive = true
         return tempButton
     }()
@@ -65,16 +74,10 @@ class CreationController: UIViewController {
         return tempStack
     }()
 
-    private func setupNavigationBar(){
-        navigationController?.title = "Create File or Folder"
-        let backButton = getCustomizedBarButton(name: Constants.left_arrow.rawValue , target: self, action: #selector(handleBackButton))
-        navigationItem.leftBarButtonItem = backButton
+    @objc private func handleCancelButton(){
+        dismiss(animated: false)
     }
-
-    @objc private func handleBackButton(){
-        navigationController?.popViewController(animated: true)
-    }
-
+    
     @objc private func handleDoneButton(){
         delegate?.createFileDirArrayElement(name: nameTextField.text!, isFolder: !isFolderCheckBox.isOn, parentDir: parentFolder)
         dismiss(animated: false)
@@ -82,9 +85,8 @@ class CreationController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         view.backgroundColor = UIColor.lightBrown
-        [nameLabel, nameTextField, isFolderLabel, isFolderCheckBox, doneButton].forEach{myStack.addArrangedSubview($0)}
+        [nameLabel, nameTextField, isFolderLabel, isFolderCheckBox, doneButton, cancelButton].forEach{myStack.addArrangedSubview($0)}
         view.addSubview(myStack)
         NSLayoutConstraint.activate([
             myStack.widthAnchor.constraint(equalToConstant: 300),
