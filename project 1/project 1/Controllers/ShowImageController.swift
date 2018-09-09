@@ -21,7 +21,6 @@ class ShowImageController:UIViewController {
     }()
     
     @objc private func handleTapFileImage(){
-        print("Image tapped")
         dismiss(animated: true, completion: nil)
     }
 

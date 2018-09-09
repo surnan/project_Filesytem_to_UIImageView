@@ -24,7 +24,6 @@ class BrowseController: UITableViewController, BrowseControllerDelegate{
         if isFolder {
             do {
                 try fmD.createDirectory(atPath: newPath.path, withIntermediateDirectories: false, attributes: nil)
-                print("SUCCESFULLY CREATED DIRECTORY???")
             } catch let createDirError {
                 print("Problem creating directory at: \(newPath.path).  Error = \(createDirError)")
                 return
@@ -33,7 +32,6 @@ class BrowseController: UITableViewController, BrowseControllerDelegate{
             let tempImage = #imageLiteral(resourceName: "background2")
             let newPath = parentDir.currentURL.appendingPathComponent(name)
             fmD.createFile(atPath: newPath.path, contents: tempImage.png, attributes: nil)
-            print("SUCCESFULLY CREATED FILE???")
         }
         
         let newArrayElement = FileDirStruct(name: name, isFolder: isFolder, parentDir: parentDir)
